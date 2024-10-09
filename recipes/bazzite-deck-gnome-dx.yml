@@ -1,18 +1,22 @@
 # image will be published to ghcr.io/<user>/<name>
-name: bazzite-dx
+name: bazzite-deck-gnome-dx
 # description will be included in the image's metadata
-description: This is my custom Bazzite image that tries to add all the development capabilities from the Aurora DX image.
+description: This is my custom Bazzite GNOME image that tries to add all the development capabilities from the Bluefin DX image.
 
 # the base image to build on top of (FROM) and the version tag to use
-base-image: ghcr.io/ublue-os/bazzite
+base-image: ghcr.io/ublue-os/bazzite-deck-gnome
 image-version: latest # latest is also supported if you want new updates ASAP
 
 # module configuration, executed in order
 # you can include multiple instances of the same module
 modules:
+  - type: containerfile
+    snippets:
+      - ARG BASE_IMAGE_NAME="${BASE_IMAGE_NAME:-bazzite-gnome}"
+
   - type: files
     files:
-      - source: bluefin/system_files/shared/usr/bin
+      - source: bluefin/system_files/shared/usr/bin 
         destination: /usr/bin
       - source: bluefin/system_files/shared/usr/libexec
         destination: /usr/libexec
@@ -24,39 +28,48 @@ modules:
         destination: /usr/share/ublue-os/homebrew
       - source: bluefin/system_files/shared/usr/share/ublue-os/quadlets
         destination: /usr/share/ublue-os/quadlets
-      - source: bluefin/system_files/shared/usr/share/ublue-os/ublue-os.jsonc
-        destination: /usr/share/ublue-os/ublue-os.jsonc
-      - source: bluefin/system_files/kinoite/usr/bin
-        destination: /usr/bin
-      - source: bluefin/system_files/kinoite/usr/share/applications
-        destination: /usr/share/applications
-      - source: bluefin/system_files/kinoite/usr/share/kglobalaccel
-        destination: /usr/share/kglobalaccel
+      # Avoid Bluefin branding
+      # - source: bluefin/system_files/silverblue/usr/share:
+       # destination: /usr/share
       - source: bluefin/system_files/dx
         destination: /
       - source: files/shared
-        destination: /
-      - source: files/kinoite
         destination: /
 
 # Common steps between both versions
   - from-file: common_recipe.yml
 
-# Install KDE Packages
+# Install GNOME packages
   - type: rpm-ostree
     install:
-      - kde-runtime-docs
-      - kdenetwork-filesharing
-      # - kdeplasma-addons # Already included in bazzite
-      - kdialog
-      - libadwaita-qt5
-      - libadwaita-qt6
-      - plasma-wallpapers-dynamic
-      - skanpage
+      - cryfs
+      - gnome-shell-extension-appindicator
+      - gnome-shell-extension-blur-my-shell
+      # - gnome-shell-extension-caffeine
+      - gnome-shell-extension-dash-to-dock
+      # - gnome-shell-extension-gsconnect
+      # - gnome-shell-extension-logo-menu
+      - gnome-shell-extension-search-light
+      - gnome-shell-extension-tailscale-gnome-qs
+      - libgda
+      - libgda-sqlite
+      - libratbag-ratbagd
+      - nautilus-gsconnect
+      - nautilus-open-any-terminal
+      - openssh-askpass
+      - simple-scan
+      - yaru-theme
+      - zenity
     remove:
-      - krfb
-      - krfb-libs
-      - plasma-welcome
+      - gnome-extensions-app
+      - gnome-software-rpm-ostree
+      - gnome-tour
+      - gnome-terminal-nautilus
+
+  - type: gnome-extensions
+    install:
+      # - Logo Menu # Already in Bazzite
+      - Search Light
 
 # Cleanup repos, etc...
   - type: script
