@@ -1,6 +1,6 @@
 # Bazzite Developer Edition
 
-[![Build Bazzite DX](https://github.com/ublue-os/bazzite-dx/actions/workflows/build.yml/badge.svg)](https://github.com/ublue-os/bazzite-dx/actions/workflows/build.yml)
+[![Build Bazzite DX](https://github.com/ublue-os/bazzite-deck-dx/actions/workflows/build.yml/badge.svg)](https://github.com/ublue-os/bazzite-deck-dx/actions/workflows/build.yml)
 
 This is just bazzite, but with extra developer-specific tooling, aiming to match [Bluefin DX](https://docs.projectbluefin.io/bluefin-dx/) and [Aurora DX](https://docs.getaurora.dev/guides/developer/) in functionality
 

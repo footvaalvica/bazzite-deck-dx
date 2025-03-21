@@ -1,5 +1,5 @@
 ---
-name: Build Bazzite DX
+name: Build Bazzite Deck DX
 on:
   schedule:
     # 7:10 UTC Monday
@@ -21,7 +21,7 @@ env:
   # ex.: ghcr.io/org/image:IMAGE_SOURCE_TAG
   IMAGE_SOURCE_TAG: "latest"
   SOURCE_ORG: "ublue-os"
-  SOURCE_REPO: "bazzite"
+  SOURCE_REPO: "bazzite-deck"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}-${{ inputs.brand_name}}-${{ inputs.stream_name }}
@@ -37,10 +37,8 @@ jobs:
       fail-fast: false
       matrix:
         base_image:
-          - bazzite
-          - bazzite-gnome
-          - bazzite-gnome-nvidia-open
-          - bazzite-nvidia-open
+          - bazzite-deck
+          - bazzite-deck-gnome
 
     env:
       BASE_IMAGE: ${{ matrix.base_image }}
@@ -111,7 +109,7 @@ jobs:
       - name: Generate output image ref
         id: gen_image_ref
         run: |
-          echo "IMAGE_NAME=${BASE_IMAGE/bazzite/bazzite-dx}" | tee -a $GITHUB_ENV
+          echo "IMAGE_NAME=${BASE_IMAGE/bazzite/bazzite-deck-dx}" | tee -a $GITHUB_ENV
 
       # Image metadata for https://artifacthub.io/ - This is optional but is highly recommended so we all can get a index of all the custom images
       # The metadata by itself is not going to do anything, you choose if you want your image to be on ArtifactHub or not.
